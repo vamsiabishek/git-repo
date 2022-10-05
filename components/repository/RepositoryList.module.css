@@ -1,0 +1,31 @@
+.repoList {
+  margin: 10px;
+}
+
+.repoDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.repo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px;
+  border-bottom: 1px solid lightgrey;
+}
+
+.repoName {
+  font-size: 18px;
+  font-weight: bold;
+  padding: 3px 0px;
+}
+
+.repoDesc {
+  font-size: 14px;
+}
+
+.repoInfo {
+  display: flex;
+  height: fit-content;
+}

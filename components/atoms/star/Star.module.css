@@ -1,0 +1,11 @@
+.starContainer {
+  display: flex;
+}
+
+.star {
+  font-size: 15px;
+}
+
+.selected {
+  color: gold;
+}
