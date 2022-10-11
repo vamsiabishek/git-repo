@@ -1,4 +1,4 @@
-import Home, { fetchRepositories } from './index'
+import Home from './index.page'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { repositoriesMock } from '../mocks/repositories'
 import { languages } from '../constants/Common'

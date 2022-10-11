@@ -12,7 +12,7 @@ export default async function handler(
   const lastWeekDate = getFormattedLastWeekDate();
 
   let query = `created:>${lastWeekDate}&sort=${sort}&order=${order}&page=${page}`
-  if(lang !== 'all' && lang !== 'undefined') {
+  if(lang && lang !== 'all' && lang !== 'undefined') {
     query = `language:${lang}&${query}`
   }
 

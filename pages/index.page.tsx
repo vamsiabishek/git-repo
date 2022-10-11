@@ -3,24 +3,24 @@ import styles from '../styles/Home.module.css'
 import { IRepositoryList } from '../interfaces/repository'
 import RepositoryList from '../components/repository/RepositoryList'
 import Pagination from '../components/atoms/pagination/Pagination'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { DEFAULT_ITEMS_PER_PAGE } from '../constants/Common'
 import Loading from '../components/atoms/loading/Loading'
 import Head from "next/head"
 import LanguageFilter from '../components/atoms/filters/LanguageFilter'
 
-export async function fetchRepositories(page: number, language?: string) {
-  const results = await fetch(`http://localhost:3000/api/repositories?page=${page}&lang=${language}`)
+export async function fetchRepositories({ page, lang, host }: { page: number, lang?: string, host?: string }) {
+  const results = await fetch(`http://${host}/api/repositories?page=${page}&lang=${lang}`)
   const data = await results.json()
   return data;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-  const data = await fetchRepositories(0)
-  return { props: { data } }
+  const data = await fetchRepositories({page: 0, host: context.req.headers.host})
+  return { props: { data, host: context.req.headers.host } }
 }
 
-export function Home({data}: {data: IRepositoryList | undefined}) {
+export function Home({data, host}: {data: IRepositoryList | undefined, host: string}) {
   const [loading, setLoading] = useState(false)
   const [pageNumber, setPageNumber] = useState(0)
   const [errorMsg, setErrorMsg] = useState<string|null>(null)
@@ -47,7 +47,7 @@ export function Home({data}: {data: IRepositoryList | undefined}) {
 
   const updateRepositories = async (page: number, lang: string) => {
     setLoading(true)
-    const repos = await fetchRepositories(page, lang)
+    const repos = await fetchRepositories({page, lang, host})
     if (repos.items) {
       setRepoData(repos)
       setPageCount(Math.ceil(repos.total_count / DEFAULT_ITEMS_PER_PAGE))
